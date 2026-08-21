@@ -18,6 +18,7 @@ from typing import Any, Optional
 
 BASE_URL = "https://backend.leadconnectorhq.com"
 FIREBASE_API_KEY = "AIzaSyB_w3vXmsI7WeQtrIOkjR6xTRVN5uOieiE"
+API_VERSION = "2021-07-28"
 CTX = ssl.create_default_context()
 
 CHROME_UA = (
@@ -146,6 +147,9 @@ class InternalGHLClient:
             "Content-Type": "application/json",
             "Accept": "application/json",
             "User-Agent": CHROME_UA,
+            # Most backend services besides /workflow reject a request without
+            # this header ("version header was not found"). /workflow ignores it.
+            "Version": API_VERSION,
         }
         url = f"{BASE_URL}{path}"
         data = json.dumps(body, ensure_ascii=False).encode("utf-8") if body else None
@@ -161,6 +165,22 @@ class InternalGHLClient:
             return {"_error": True, "code": e.code, "message": error_body[:200]}
         except Exception as ex:
             return {"_error": True, "message": str(ex)}
+
+    def get(self, path: str) -> Optional[dict]:
+        """GET a path on the internal API."""
+        return self.request("GET", path)
+
+    def post(self, path: str, body: dict[str, Any] | None = None) -> Optional[dict]:
+        """POST to a path on the internal API."""
+        return self.request("POST", path, body)
+
+    def put(self, path: str, body: dict[str, Any] | None = None) -> Optional[dict]:
+        """PUT to a path on the internal API."""
+        return self.request("PUT", path, body)
+
+    def delete(self, path: str) -> Optional[dict]:
+        """DELETE a path on the internal API."""
+        return self.request("DELETE", path)
 
     def create_location_tag(self, tag: str) -> bool:
         """Create a tag at location level (required before using in triggers)."""

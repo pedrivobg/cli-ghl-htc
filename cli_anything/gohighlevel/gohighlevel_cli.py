@@ -1249,6 +1249,119 @@ def locations_custom_values(ctx):
 
 
 # ===========================================================================
+# RAW API ACCESS
+# ===========================================================================
+
+def _parse_query(pairs: tuple[str, ...]) -> dict:
+    """Turn repeated key=value options into a params dict."""
+    params = {}
+    for pair in pairs:
+        if "=" not in pair:
+            click.echo(f"Error: --query expects key=value, got '{pair}'", err=True)
+            sys.exit(1)
+        key, value = pair.split("=", 1)
+        params[key] = value
+    return params
+
+
+def _parse_body(data: str | None) -> dict | None:
+    """Parse a JSON body from a string or @file."""
+    if data is None:
+        return None
+    if data.startswith("@"):
+        try:
+            data = open(data[1:], encoding="utf-8").read()
+        except OSError as e:
+            click.echo(f"Error: cannot read {data[1:]}: {e}", err=True)
+            sys.exit(1)
+    try:
+        return json.loads(data)
+    except json.JSONDecodeError as e:
+        click.echo(f"Error: --data is not valid JSON: {e}", err=True)
+        sys.exit(1)
+
+
+@cli.command("api")
+@click.argument("method", type=click.Choice(["GET", "POST", "PUT", "DELETE"], case_sensitive=False))
+@click.argument("path")
+@click.option("--query", "query", multiple=True, help="Query param as key=value (repeatable)")
+@click.option("--data", default=None, help="JSON body, or @file.json to read from a file")
+@click.option("--version", "version", default=None, help="Override the Version header")
+@click.pass_context
+def api_raw(ctx, method, path, query, data, version):
+    """Call any public API endpoint directly (services.leadconnectorhq.com).
+
+    Use {loc} in PATH as a placeholder for the location ID.
+
+    \b
+    Examples:
+      ghl --json api GET /users/ --query locationId={loc}
+      ghl --json api GET /links/ --query locationId={loc}
+      ghl --json api GET /locations/{loc}/tags
+      ghl api POST /contacts/ --data '{"locationId":"...","email":"a@b.com"}'
+    """
+    path = path.replace("{loc}", _loc(ctx))
+    params = _parse_query(query)
+    for key, value in params.items():
+        params[key] = value.replace("{loc}", _loc(ctx))
+    body = _parse_body(data)
+    method = method.upper()
+    try:
+        if method == "GET":
+            result = api.get(path, params=params or None, version=version)
+        elif method == "POST":
+            result = api.post(path, data=body, version=version)
+        elif method == "PUT":
+            result = api.put(path, data=body, version=version)
+        else:
+            result = api.delete(path, version=version)
+        _output(ctx, result, f"{method} {path}")
+    except Exception as e:
+        _handle_error(e)
+
+
+@cli.command("internal")
+@click.argument("method", type=click.Choice(["GET", "POST", "PUT", "DELETE"], case_sensitive=False))
+@click.argument("path")
+@click.option("--data", default=None, help="JSON body, or @file.json to read from a file")
+@click.pass_context
+def internal_raw(ctx, method, path, data):
+    """Call any internal API endpoint (backend.leadconnectorhq.com).
+
+    Requires --experimental and a Firebase refresh token. This is the API the
+    GHL web app itself uses, so it reaches everything the UI can do — including
+    writes the public API refuses (workflows, funnels, triggers, snapshots).
+
+    Use {loc} in PATH as a placeholder for the location ID.
+
+    \b
+    Examples:
+      ghl --experimental --json internal GET /workflow/{loc}/list
+      ghl --experimental --json internal GET /triggers/?locationId={loc}
+      ghl --experimental --json internal GET /funnels/funnel/list?locationId={loc}
+    """
+    _require_experimental(ctx)
+    path = path.replace("{loc}", _loc(ctx))
+    body = _parse_body(data)
+    client = _get_internal_client(ctx)
+    result = client.request(method.upper(), path, body)
+    if result is None:
+        click.echo(
+            "Error: internal API rejected the Firebase token (401/403).\n"
+            "Grab a fresh refresh token — see docs/get-firebase-token.md.",
+            err=True,
+        )
+        sys.exit(1)
+    if isinstance(result, dict) and result.get("_error"):
+        click.echo(
+            f"API Error ({result.get('code', '?')}): {result.get('message', '')}",
+            err=True,
+        )
+        sys.exit(1)
+    _output(ctx, result, f"{method.upper()} {path}")
+
+
+# ===========================================================================
 # Entry point
 # ===========================================================================
 

@@ -71,6 +71,30 @@ You should see 5 contacts (or an empty list, depending on the account). Done.
 
 ---
 
+## Raw API access
+
+The 11 command groups don't cover everything the two APIs expose. `ghl api` and
+`ghl internal` reach any endpoint directly — `{loc}` expands to your location ID.
+
+```bash
+# Public API (services.leadconnectorhq.com) — anything your PIT's scopes allow
+ghl --json api GET /users/ --query locationId={loc}
+ghl --json api GET /voice-ai/agents --query locationId={loc}
+ghl api POST /contacts/ --data '{"locationId":"...","email":"a@b.com"}'
+ghl api PUT /contacts/<id> --data @contact.json
+
+# Internal API (backend.leadconnectorhq.com) — everything the GHL web app can do
+ghl --experimental --json internal GET /workflow/{loc}/list
+ghl --experimental --json internal GET "/triggers/?locationId={loc}"
+ghl --experimental --json internal GET "/funnels/funnel/list?locationId={loc}"
+```
+
+A verified map of what each API reaches on a live account —
+including the agency-level endpoints the public API refuses — is in
+[`docs/CAPACIDADES.md`](docs/CAPACIDADES.md) (Portuguese).
+
+---
+
 ## Workflow building (the powerful part)
 
 The public GHL API is read-only for workflows. To **create or update** workflows, the CLI uses GHL's internal API — and that needs a Firebase refresh token.
@@ -180,9 +204,14 @@ The CLI talks to two APIs:
 | API | What it can do | How it authenticates |
 |-----|----------------|----------------------|
 | **Public** (`services.leadconnectorhq.com`) | Read everything, create contacts/opportunities/etc. **Workflows are GET-only here.** | `GHL_API_KEY` (Private Integration Token) |
-| **Internal** (`backend.leadconnectorhq.com`) | Everything the GHL UI can do — including **creating workflows**. Hidden behind a `--experimental` flag on commands that use it. | Firebase JWT, refreshed from `GHL_FIREBASE_REFRESH_TOKEN` |
+| **Internal** (`backend.leadconnectorhq.com`) | Everything the GHL UI can do — including **creating workflows**, triggers, funnels, and agency-level reads. Hidden behind a `--experimental` flag on commands that use it. | Firebase JWT, refreshed from `GHL_FIREBASE_REFRESH_TOKEN` |
 
-You only need the Firebase token if you want to **build** workflows. Everything else works with just the API key.
+You only need the Firebase token if you want to **build** workflows or reach the
+internal-only surfaces. Everything else works with just the API key.
+
+Note: every internal request sends a `Version` header. Without it the backend
+answers `401 "version header was not found"` on everything except `/workflow/*`,
+which reads like a permissions problem but isn't.
 
 ---
 
