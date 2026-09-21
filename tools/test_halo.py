@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 """Testa a IA Halo simulando uma conversa real pela API do GoHighLevel.
 
+LIMITACAO CONFIRMADA POR EXPERIMENTO (21/09/2026): o gatilho "Customer Replied"
+NAO dispara com mensagem inserida por esta API. Verificado com um workflow
+descartavel que so aplicava uma tag: a mensagem entra na conversa, aparece como
+inbound no canal certo, e o gatilho nao roda. Ou seja, este script monta o
+cenario e registra a mensagem, mas nao consegue acordar a IA.
+
+Para testar a Halo de verdade, mande a mensagem pelo canal real (WhatsApp,
+Instagram ou o chat do site). Este script continua util para preparar o contato
+de teste e para conferir o que chega na conversa.
+
 Cria um contato descartável, coloca ele no estagio que liga a Halo, manda uma
 mensagem como se fosse o lead e fica ouvindo a resposta. No fim apaga tudo.
 
@@ -45,12 +55,10 @@ def location() -> str:
 
 
 def janela_aberta() -> tuple[bool, str]:
-    """A Halo so liga fora do horario comercial: >=19h, <=7h ou fim de semana."""
+    """A janela do workflow foi aberta para 24h em 21/09/2026, entao sempre passa."""
     import datetime
     agora = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=3)
-    hhmm = agora.hour * 100 + agora.minute
-    aberta = hhmm >= 1900 or hhmm <= 700 or agora.weekday() >= 5
-    return aberta, agora.strftime("%d/%m %H:%M (%a)")
+    return True, agora.strftime("%d/%m %H:%M (%a)")
 
 
 def criar_contato(loc: str) -> tuple[str, str]:
@@ -126,9 +134,9 @@ def main() -> None:
     loc = location()
     aberta, quando = janela_aberta()
     print(f"agora: {quando}")
-    if not aberta:
-        print("AVISO: fora da janela da Halo (ela so liga >=19h, <=7h ou fim de semana).")
-        print("       O teste vai rodar, mas provavelmente nao havera resposta.\n")
+    print("AVISO: o gatilho do GoHighLevel nao dispara com mensagem vinda desta API.")
+    print("       O cenario e montado e a mensagem entra na conversa, mas a IA nao")
+    print("       acorda. Para testar de verdade, mande pelo canal real.\n")
 
     cid, conv = criar_contato(loc)
     print(f"contato de teste: {cid}")
@@ -146,7 +154,7 @@ def main() -> None:
             print(f"   {r}")
     else:
         print("=== SEM RESPOSTA ===")
-        print("   Checar: janela de horario, bot ativo no contato, oportunidade no estagio certo.")
+        print("   Esperado: o gatilho nao dispara por API. Veja a nota no topo do arquivo.")
 
     if args.manter:
         print(f"\ncontato mantido: {cid}")
