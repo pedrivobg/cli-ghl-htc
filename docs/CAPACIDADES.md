@@ -235,3 +235,47 @@ Enquanto o token é válido, o CLI troca por um JWT novo sozinho a cada 50 minut
 - Como as credenciais deste repositório já circularam por chat, vale rotacioná-las
   quando a operação terminar: gerar um novo Private Integration Token em
   Settings → Private Integrations e sair da sessão do GHL para invalidar o refresh token.
+
+## Halo no Instagram e suporte de afiliado (set/2026)
+
+### Por que a Halo não respondia no Instagram
+O workflow `HTC | Atendimento IA Halo` (`0076f038-…`) começa com um
+`find_opportunity` no pipeline Afiliado e só liga o bot se a oportunidade
+estiver em `Opt In Leads` ou `Afiliado Lead(1st step)`. As DMs do Instagram
+caem em **`Instagram Leads`** (`422a0d12-…`), criado pelo workflow
+`IG DM -> Add Pipeline` — estágio que não estava na lista. Resultado: o ramo
+"Opportunity Not Found"/"NÃO" é um beco sem saída e o bot nunca era ligado.
+O gatilho e os canais do agente (`channels` inclui `IG`) sempre estiveram
+certos; o problema era só a condição de estágio.
+
+Correções aplicadas (`tools/fix_instagram_halo.py`):
+1. `Instagram Leads` entrou na lista de estágios aceitos;
+2. `IG DM -> Add Pipeline` passou a inscrever o contato no atendimento da Halo
+   logo depois de criar a oportunidade — os dois workflows disparavam no mesmo
+   `customer_reply`, então o `find_opportunity` podia rodar antes de a
+   oportunidade existir.
+
+### Ações do agente têm gatilho próprio
+O texto do prompt **não** aciona uma ação. Quem decide é o `triggerCondition`
+da própria ação. Nos `humanHandOver` esse texto é gerado pelo `handoverType`
+(`contactRequest`, `lackOfInformation`, `failedToResolveIssue`) e qualquer
+edição manual volta ao padrão. Para uma condição própria, use `triggerWorkflow`:
+
+    POST /conversation-ai/agents/{bot}/actions?locationId={loc}
+    {"name": "...", "type": "triggerWorkflow",
+     "details": {"triggerCondition": "...", "workflowIds": ["<wf>"]}}
+
+`details` de `triggerWorkflow` aceita só `triggerCondition` e `workflowIds`
+(array); `enabled`, `examples` e `workflowId` são rejeitados com 422.
+
+### PUT do agente
+`PUT /conversation-ai/agents/{bot}?locationId={loc}` recusa `locationId` no
+corpo (422). E quando `fullPrompt` vai junto dos três campos, o servidor grava
+só o `fullPrompt`: mande `personality`/`goal`/`instructions` em um PUT e o
+`fullPrompt` remontado em outro.
+
+### Corrida entre gravar campo e notificar
+A Halo grava os campos e dispara o workflow de transferência quase ao mesmo
+tempo, e a notificação renderizava `{{contact.status_do_ticket}}` vazio. Mesma
+corrida do bug de comissão. Resolvido com 2 minutos de espera antes de avisar o
+time (`tools/fix_transferencia_corrida.py`).
