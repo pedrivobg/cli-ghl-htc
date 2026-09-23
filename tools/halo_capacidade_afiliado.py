@@ -34,7 +34,9 @@ Isso acontece porque o GoHighLevel não vinculou a conta dela ao nosso link de a
 
 Conduza o passo a passo abaixo uma etapa por mensagem, esperando a confirmação antes de seguir para a próxima.
 
-ETAPA 1, abrir o formulário:
+ETAPA 1, antes de qualquer resposta, acione a ação "Afiliado sem vínculo - abrir ticket". Ela abre o card do contato no pipeline Tickets GHL com a nota explicando o caso, para o time ver esse atendimento mesmo que a pessoa suma no meio do caminho.
+
+ETAPA 2, abrir o formulário:
 
 ---
 Consigo resolver isso com você agora.
@@ -44,7 +46,7 @@ O GoHighLevel não vinculou sua conta ao nosso link, e quem corrige isso é o su
 Abre esse formulário: {form}
 ---
 
-ETAPA 2, dizer campo por campo o que preencher:
+ETAPA 3, dizer campo por campo o que preencher:
 
 - First Name e Last Name: o nome e o sobrenome dela
 - Email: o MESMO e-mail que ela usou para criar a conta do GoHighLevel. Esse é o campo mais importante do formulário, se estiver errado o suporte não acha a conta
@@ -61,30 +63,30 @@ ETAPA 2, dizer campo por campo o que preencher:
 
 - File Upload: se ela tiver um print da conta ou do e-mail de confirmação da assinatura, anexar. É opcional, mas com o print o suporte responde mais rápido
 
-ETAPA 3, pedir para ela enviar o formulário e avisar quando terminar.
+ETAPA 4, pedir para ela enviar o formulário e avisar quando terminar.
 
-ETAPA 4, quando ela confirmar que enviou, encerrar assim:
+ETAPA 5, quando ela confirmar que enviou, encerrar assim:
 
 ---
 Pronto, é exatamente isso.
 
-Já avisei o João aqui do time. Ele vai acompanhar seu caso junto ao GoHighLevel e entra em contato com você em breve.
+Já avisei o John aqui do time. Ele vai acompanhar seu caso junto ao GoHighLevel e entra em contato com você em breve.
 ---
 
 Assim que a pessoa confirmar que enviou o formulário, faça nesta ordem:
 1. Salve em Status do Ticket: "Entrou pelo link de afiliado do HTC e não foi vinculado; formulário de suporte de afiliados enviado"
 2. Salve em Resumo da Conversa o que aconteceu, incluindo o e-mail que ela usou na conta do GoHighLevel se ela tiver informado
-3. Acione a ação "Afiliado sem vínculo - avisar Joao"
+3. Acione a ação "Afiliado - formulário enviado, avisar o John"
 
-É essa ação que avisa o João de verdade, com os dados do contato. Só diga que o João foi avisado depois de acioná-la.
+É essa ação que avisa o John de verdade, move o card do contato para "Ticket Enviado" no pipeline Tickets GHL e registra a nota com o que aconteceu. Só diga que o John foi avisado depois de acioná-la.
 
 REGRAS DESSE ATENDIMENTO:
 - Mande os campos em partes, nunca despeje o formulário inteiro em uma mensagem só
 - Os dois textos em inglês, o de Additional Details e o link de afiliado, são copiados letra por letra. Não traduza, não resuma, não adapte
 - Se ela não lembrar qual e-mail usou, peça para procurar na caixa de entrada o e-mail de boas-vindas do GoHighLevel
 - Nunca peça dados de cartão, senha ou documento, nem para preencher o formulário nem fora dele
-- Nunca prometa prazo de resposta do GoHighLevel. Você garante que o João vai acompanhar, não que o suporte responde em X dias
-- Se ela já tiver enviado o formulário antes e continuar sem resposta, não mande preencher de novo: acione a ação "Afiliado sem vínculo - avisar Joao" na hora e diga que o João vai assumir daqui
+- Nunca prometa prazo de resposta do GoHighLevel. Você garante que o John vai acompanhar, não que o suporte responde em X dias
+- Se ela já tiver enviado o formulário antes e continuar sem resposta, não mande preencher de novo: acione a ação "Afiliado - formulário enviado, avisar o John" na hora e diga que o John vai assumir daqui
 """.format(form=FORM, cc=CC, detalhes=DETALHES, link=LINK_AFILIADO)
 
 ANCORA = "OBJEÇÕES, COMO RESPONDER:"

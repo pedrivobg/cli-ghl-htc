@@ -279,3 +279,35 @@ A Halo grava os campos e dispara o workflow de transferência quase ao mesmo
 tempo, e a notificação renderizava `{{contact.status_do_ticket}}` vazio. Mesma
 corrida do bug de comissão. Resolvido com 2 minutos de espera antes de avisar o
 time (`tools/fix_transferencia_corrida.py`).
+
+### Caso de afiliação não atribuída vira card no pipeline Tickets GHL
+
+`Tickets GHL` (`kBAMxq13EkXGXrccljKf`) já era o pipeline onde o time tocava
+esse caso na mão — os estágios são `Enviar Ticket Suporte`, `Ticket Enviado`,
+`Afiliacao Atribuida` e `Afiliacao Negada`. Nenhum workflow publicado tocava
+nele até agora. Dois workflows novos (`tools/ticket_afiliado.py`) automatizam
+os dois primeiros estágios, acionados pelo agente:
+
+| Momento | Ação do agente | Workflow | Resultado |
+|---|---|---|---|
+| Halo detecta o caso | `Afiliado sem vínculo - abrir ticket` | `HTC \| Halo -> Ticket Afiliado (abrir)` | card em `Enviar Ticket Suporte` + nota |
+| contato confirma o envio | `Afiliado - formulário enviado, avisar o John` | `HTC \| Halo -> Ticket Afiliado (enviado)` | card para `Ticket Enviado`, nota, bot desligado, SMS pro John |
+
+`create_opportunity` sem `allow_multiple` atualiza a oportunidade existente do
+contato naquele pipeline em vez de duplicar, então o segundo workflow move o
+mesmo card.
+
+### Dois "João" na conta
+- `AoRfnKsAmrFW57EiadNQ` — **João Alves**, contato.arboled@gmail.com, +1 407 684 3440
+- `wmlzZtJRtlFzilmaSojj` — **John Nogueira**, joaognogueiracardoso@gmail.com, +55 35 99208 3583
+
+O e-mail de CC do formulário de afiliado é o do **John Nogueira**, então é ele
+que recebe os avisos do fluxo de afiliado. Os três `humanHandOver` genéricos da
+Halo continuam apontando para o João Alves.
+
+### Criar workflow pela API interna
+`POST /workflow/{loc}` com `{"name": ..., "status": "draft"}` devolve o id; os
+passos entram depois pelo PUT normal. `DELETE /workflow/{loc}/{id}` apaga.
+Passos `update_conversation_ai_status` e `find_opportunity` precisam de
+`workflowsActionType: "INTERNAL"`, senão o PUT recusa com "action has a
+corrupted type".
