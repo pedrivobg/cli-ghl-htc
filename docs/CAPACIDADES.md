@@ -311,3 +311,55 @@ passos entram depois pelo PUT normal. `DELETE /workflow/{loc}/{id}` apaga.
 Passos `update_conversation_ai_status` e `find_opportunity` precisam de
 `workflowsActionType: "INTERNAL"`, senão o PUT recusa com "action has a
 corrupted type".
+
+## Por que a Halo quase não ativa (auditoria 18–23/09/2026)
+
+### A Halo funciona
+Três leads reais foram atendidos por ela em 22–23/09 (Jeiselaine, Ranielly, Ana),
+com conversa completa e follow-up. O problema não é o agente, é por onde a
+mensagem entra.
+
+### Volume real recebido no período
+| Canal | msgs | % | pessoas |
+|---|---|---|---|
+| WhatsApp via STEVO (`TYPE_CUSTOM_SMS`, tipo 20) | 272 | 86% | 26 |
+| Instagram (tipo 18) | 26 | 8% | 8 |
+| WhatsApp oficial (tipo 19) | 17 | 5% | 5 |
+
+### O gatilho `customer_reply` não dispara para provedor customizado
+Toda mensagem do STEVO chega com `source: "api"` e `conversationProviderId`
+(`682cdb5dc127505befd9fc7e`, app `STEVO`) — ou seja, é injetada pelo endpoint
+`POST /conversations/messages/inbound`. Mensagens nativas (tipos 18 e 19) vêm
+sem `source`. Já estava provado nesta base que **mensagem injetada pela API não
+dispara `customer_reply`** (ver `tools/test_halo.py`), e os dados confirmam:
+
+- dos **101 contatos que já receberam a tag `demo-halo`** (todos que a Halo já
+  atendeu na vida), **100% têm WhatsApp oficial na conversa**;
+- **zero** foram atendidos tendo só STEVO — apesar de 50 deles terem mensagens
+  STEVO junto.
+
+Nenhum workflow da conta filtra `message.type == 20`, então não há precedente de
+automação reagindo a esse canal.
+
+O `channels` do agente também não tem valor para provedor customizado. Os
+válidos são `GMB, IG, FB, SMS, WebChat, WhatsApp, Live_Chat, Email, TIKTOK`
+(descoberto por 422 num PUT com valor inválido). A Halo usa
+`WhatsApp, SMS, IG, WebChat` — `SMS` não cobre o `TYPE_CUSTOM_SMS` do STEVO.
+
+Saída possível: o STEVO já manda webhook para a conta (`Alerta Desconexao -
+STEVO` usa `inbound_webhook`). Se ele puder postar um webhook por mensagem
+recebida, um workflow de `inbound_webhook` inscreve o contato no atendimento da
+Halo e contorna o gatilho.
+
+### Instagram: confirmado em produção que era o estágio
+Jaiane (22/09 13:55) e Dudu Adry (23/09 09:30) mandaram DM fria e receberam
+`Opportunity created` **no mesmo minuto**, pelo `IG DM -> Add Pipeline`, que
+dispara no mesmo `customer_reply` tipo 18. Ou seja: o gatilho da Halo também
+disparou, e o fluxo morreu na condição de estágio — exatamente o que a correção
+de hoje resolve. Não houve DM de Instagram depois da correção, então isso ainda
+não foi visto rodando em produção, só no teste.
+
+### A tag `demo-halo` é de uso único
+A condição é `tags index-of-false ['demo-halo']` e o próprio fluxo aplica a tag.
+Quem já foi atendido uma vez nunca mais entra. Dos leads do período, 4 já
+estavam bloqueados por isso.
