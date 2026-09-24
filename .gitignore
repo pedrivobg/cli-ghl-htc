@@ -32,3 +32,4 @@ output/
 
 # OMC orchestration state (not part of the CLI)
 .omc/
+entregas/
