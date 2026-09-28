@@ -74,6 +74,13 @@ neste repositório; os scripts citados estão em `tools/`.
     website `Tzk80MbBa69EntMsGrtq`
 - [ ] **Rafa (WN):** executar o passo a passo do GBP e subir as fotos, no site e no
       GMN (zip já entregue). Não renomear o perfil.
+- [ ] **Rafa (WN site):** trocar as 10 imagens de IA pelas fotos reais de
+      `entregas/WN-Painting-site-fotos-por-espaco.zip`. O LEIA-ME do zip diz onde cada
+      uma entra (objeto `te` e JSON-LD). Prioridade: a imagem do schema, que hoje é um
+      cartão falso "TRESTE" com telefone inventado.
+- [ ] **Pedro:** dar acesso ao Claude às tarefas do ClickUp da WN (86akq1h13 e o
+      build 86akq95w7) e ao repositório `crew-systems/crew-hq`, que tem o padrão de
+      auditoria. Hoje nenhum dos dois está acessível nesta sessão.
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
       logotipo; quadrada, 720×720 px).
 - [ ] **Best Painting:** pedir ao Marcelo os vídeos originais. Os do Drive vieram
