@@ -74,27 +74,24 @@ neste repositório; os scripts citados estão em `tools/`.
     website `Tzk80MbBa69EntMsGrtq`
 - [ ] **Rafa (WN):** executar o passo a passo do GBP e subir as fotos, no site e no
       GMN (zip já entregue). Não renomear o perfil.
-- [ ] **WN — o que falta (revisado em 28/09, 19h):**
-  - Pedro, AI Studio: Prompt 7 (`entregas/WN-Painting-PROMPT-7-imagens-cdn.md`, sem
-    anexo). O site publicado ainda não tem o Prompt 7: logo (PNG de 355 KB) e selo
-    (PNG de 888 KB) originais, fotos sem o CDN do GHL. PageSpeed mobile: home 62 a 74,
-    serviço 77, desktop 95. Meta: home mobile ≥ 75. O prompt agora também troca o
-    texto do /get-your-discount ("inbox" → "we'll text you"), já que o form não pede
-    e-mail.
+- [ ] **WN — o que falta (revisado em 28/09, 20h):**
   - Pedro: Search Console + Bing (passo a passo em
-    `entregas/WN-Painting-PROMPT-performance-e-search-console.md`). Não há meta de
-    verificação do Google no site ainda.
+    `entregas/WN-Painting-PROMPT-performance-e-search-console.md`). É o único item
+    aberto no ClickUp. Enviar o sitemap pela API é possível, mas exige o login OAuth
+    do dono da propriedade no Google; sem isso, o jeito é manual. O robots.txt já
+    aponta o sitemap, então o Google o encontra mesmo antes do envio.
   - Pedro (opcional): perfil da empresa no GHL ainda com e-mail hotmail; o e-mail da
     empresa no onboarding é o gmail.
-  - Claude: depois do Prompt 7, rodar `tools/lighthouse.sh` de novo; com a home ≥ 75,
-    marcar o Sprint 6 no ClickUp. Com o Search Console feito, marcar o último item,
-    passar a tarefa para "complete" e deixar a nota no contato do Wesley na subconta
-    da Crew (a pedido do Pedro, só no fim).
+  - Claude: com o Search Console feito, marcar o último item, passar a tarefa para
+    "complete" e deixar a nota no contato do Wesley na subconta da Crew (a pedido do
+    Pedro, só no fim).
   - Em aberto: rascunhos 0.2 e 0.3 da WN ainda avisam "All users".
-  - Feito em 28/09: `/auditar-site` VERDE (0 falhas, 5 alertas que não bloqueiam);
-    Discount Form e Review Survey revisados no celular (logo nos forms feito pelo
-    Pedro; 1–3 estrelas abre o feedback; 4–5 vai para o link de review do Google,
-    que responde); ClickUp [Wnpainting] com 10 de 12 itens marcados.
+  - Feito em 28/09: Prompt 7 no ar (imagens pelo CDN do GHL); PageSpeed home mobile
+    69, 78 e 76 em 3 execuções, mediana 76 (era 62); serviço 80; desktop 92.
+    `/auditar-site` VERDE (0 falhas, 5 alertas que não bloqueiam). Discount Form e
+    Review Survey revisados no celular: com 1 a 3 estrelas abre o feedback, com 4 ou 5
+    vai para o link de review do Google (o link responde). ClickUp [Wnpainting] com
+    11 de 12 itens marcados.
 - [x] WN feito até 28/09: fotos reais no site inteiro (sem IA, WebP), mapeamento
       corrigido; form de orçamento na conta da WN (locationId, tracking, Service
       Needed, Your Message) → /thank-you; /marketing-form, /about, /privacy-policy,
