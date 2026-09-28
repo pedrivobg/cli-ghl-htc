@@ -1,6 +1,6 @@
 # To-do — HTC e Crew Systems
 
-Atualizado em 28/09/2026. Cada item diz quem faz. "Claude" = sessão do Claude Code
+Atualizado em 29/09/2026. Cada item diz quem faz. "Claude" = sessão do Claude Code
 neste repositório; os scripts citados estão em `tools/`.
 
 ## HTC — Halo e leads
@@ -74,33 +74,33 @@ neste repositório; os scripts citados estão em `tools/`.
     website `Tzk80MbBa69EntMsGrtq`
 - [ ] **Rafa (WN):** executar o passo a passo do GBP e subir as fotos, no site e no
       GMN (zip já entregue). Não renomear o perfil.
-- [ ] **Pedro (WN site, AI Studio):** mandar os 4 prompts de
-      `entregas/WN-Painting-PROMPTS-AI-STUDIO.md`, cada um com as imagens da sua
-      pasta (até 5) (`entregas/WN-Painting-AI-Studio-imagens.zip`). Tira as 2 imagens de IA
-      (hero e Bathroom Remodeling), corrige as fotos trocadas (Interior, Exterior e
-      Flooring) e passa tudo para WebP (Sprint 6). Depois, o Claude confere no site ao
-      vivo.
-- [ ] **WN Build (conferido e corrigido em 28/09):**
-  - Feito pelo Claude (`tools/crew_wn_build_fix.py`): Company Website Link sem "/",
-    Company Email (wesleynevespainting@gmail.com, "Email da Empresa" do onboarding),
-    Company Phone, gatilho da 0.0 para o form do site (`estimate-request-form`),
-    avisos "All users" → Wesley em 7 workflows publicados, campo "Service Needed"
-    criado (`Wj8uisiBI9U1dxqAN84s`). A2P já aprovado (confirmado pelo Pedro).
-  - Pedro, no AI Studio: Prompt A (form → locationId/tracking da WN + serviço e
-    mensagem) e Prompt B (/marketing-form), em
-    `entregas/WN-Painting-PROMPTS-AI-STUDIO-form-e-marketing.md`.
-  - Pedro, no GHL: logo da WN na Review Survey, no Client Review Form e no Discount
-    Form.
-  - Em aberto: rascunhos 0.2 e 0.3 ainda avisam "All users".
-- [ ] **WN /auditar-site:** SEO VERDE em 28/09 (0 falhas, 5 alertas: páginas
-      utilitárias sem pré-render e soft 404). Falta: Pedro rodar
-      `entregas/WN-Painting-PROMPT-corrigir-imagens.md` (hero, interior com URL
-      quebrada, exterior, flooring e deck trocados) e fazer os testes manuais (form
-      real, celular, PageSpeed, Search Console).
-- [ ] **WN performance (Lighthouse 13, 28/09):** mobile 64, desktop 90, Agentic 75. Pedro
-      roda o Prompt 6 de `entregas/WN-Painting-PROMPT-performance-e-search-console.md`
-      (anexos `wn-logo.webp` e `crew-systems-badge.webp`) e cadastra o sitemap no Search
-      Console pelo passo a passo do mesmo arquivo. Claude reroda `tools/lighthouse.sh`.
+- [ ] **WN — o que falta (revisado em 29/09):**
+  - Pedro, AI Studio: Prompt 7 (`entregas/WN-Painting-PROMPT-7-imagens-cdn.md`, sem
+    anexo): logo, selo e fotos pelo CDN do GHL + contraste do azul no fundo escuro.
+    Meta: PageSpeed mobile ≥ 75 (hoje 62 na home, 68 em serviço; desktop 87).
+  - Pedro, GHL: pôr o logo da WN no topo (elemento de imagem) do Discount Form, da
+    Review Survey e do Website Form, e trocar a imagem da CrewSystems no Client Review
+    Form. Hoje: Discount e Survey sem logo visível; Client Review com a CrewSystems;
+    Website Form com logo "ezclick".
+  - Pedro: Search Console + Bing (passo a passo em
+    `entregas/WN-Painting-PROMPT-performance-e-search-console.md`). Não há meta de
+    verificação do Google no site ainda.
+  - Pedro: testes manuais que faltam: celular (barra fixa), Discount Form e Review
+    Survey (1–3 e 4–5 estrelas). O form de orçamento já foi testado (Rafael, 28/09):
+    chega na WN com Service Needed e dispara a 0.0.
+  - Pedro (opcional): perfil da empresa no GHL ainda com e-mail hotmail; o e-mail da
+    empresa no onboarding é o gmail.
+  - Claude: rerodar `tools/lighthouse.sh` e `seo-audit.sh` depois do Prompt 7; quando
+    tudo fechar, marcar a tarefa Wnpainting no ClickUp e deixar a nota no contato do
+    Wesley na subconta da Crew (só no fim, a pedido do Pedro).
+  - Em aberto: rascunhos 0.2 e 0.3 da WN ainda avisam "All users".
+- [x] WN feito até 29/09: fotos reais no site inteiro (sem IA, WebP), mapeamento
+      corrigido; form de orçamento na conta da WN (locationId, tracking, Service
+      Needed, Your Message) → /thank-you; /marketing-form, /about, /privacy-policy,
+      /terms; SEO 0 falhas (HousePainter, noindex, sitemap 18 URLs, robots, llms.txt,
+      CEP 19154); Agentic Browsing 100 (`/.well-known/ai-catalog.json`); fontes sem
+      bloquear e código dividido por página; custom values, gatilho da 0.0 e avisos no
+      GHL (`tools/crew_wn_build_fix.py`).
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
       logotipo; quadrada, 720×720 px).
 - [ ] **Best Painting:** pedir ao Marcelo os vídeos originais. Os do Drive vieram
