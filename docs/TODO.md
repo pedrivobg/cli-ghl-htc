@@ -97,6 +97,10 @@ neste repositório; os scripts citados estão em `tools/`.
       `entregas/WN-Painting-PROMPT-corrigir-imagens.md` (hero, interior com URL
       quebrada, exterior, flooring e deck trocados) e fazer os testes manuais (form
       real, celular, PageSpeed, Search Console).
+- [ ] **WN performance (Lighthouse 13, 28/09):** mobile 64, desktop 90, Agentic 75. Pedro
+      roda o Prompt 6 de `entregas/WN-Painting-PROMPT-performance-e-search-console.md`
+      (anexos `wn-logo.webp` e `crew-systems-badge.webp`) e cadastra o sitemap no Search
+      Console pelo passo a passo do mesmo arquivo. Claude reroda `tools/lighthouse.sh`.
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
       logotipo; quadrada, 720×720 px).
 - [ ] **Best Painting:** pedir ao Marcelo os vídeos originais. Os do Drive vieram
