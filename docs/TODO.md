@@ -93,8 +93,10 @@ neste repositório; os scripts citados estão em `tools/`.
     Form.
   - Em aberto: CEP (19152 no onboarding, 19154 no perfil do GHL); rascunhos 0.2 e 0.3
     ainda avisam "All users".
-- [ ] **Claude:** rodar o `/auditar-site wnpaintingremodeling.com` do crew-hq (acesso
-      liberado em 28/09) e gerar os prompts de correção dos sprints.
+- [ ] **WN /auditar-site (28/09): VERMELHO, 43 falhas.** Pedro roda os 5 prompts de
+      `entregas/WN-Painting-auditoria-fix-2026-09-28.md` (Sprints 3, 2, 4, 5, 6), um
+      por vez; o Claude reaudita até VERDE. Antes: confirmar o CEP no GBP (site 19152,
+      endereço real 19154).
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
       logotipo; quadrada, 720×720 px).
 - [ ] **Best Painting:** pedir ao Marcelo os vídeos originais. Os do Drive vieram
