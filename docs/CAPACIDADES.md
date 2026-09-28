@@ -363,3 +363,38 @@ não foi visto rodando em produção, só no teste.
 A condição é `tags index-of-false ['demo-halo']` e o próprio fluxo aplica a tag.
 Quem já foi atendido uma vez nunca mais entra. Dos leads do período, 4 já
 estavam bloqueados por isso.
+
+## Halo ligada na entrada e atendimento todo no John (28/09/2026)
+
+### Canal: a Halo só atende o WhatsApp oficial
+Passo `sms` de workflow nesta conta sai pelo STEVO (`TYPE_CUSTOM_SMS`). Resposta que
+volta pelo STEVO não dispara `customer_reply` e a Halo não responde: o Carlos
+(`0CflyMyn8opXdYGIEd2C`) falou no chat do site, a resposta da IA saiu pelo STEVO e as
+duas mensagens dele pelo STEVO ficaram sem retorno. Injetar mensagem com o provedor
+do STEVO pelo PIT é recusado (`CONVERSATIONS_MSG_PROVIDER_NO_ACCESS`), então o teste
+direto desse canal só dá com um celular real.
+
+No `1.2 Opt In (Wpp)`, até a versão 27 os passos de SMS ficavam desligados e só os
+templates saíam. A versão 30 (28/09) desligou os templates e ligou os SMS.
+`tools/htc_optin_halo.py` volta ao template, com "John" no lugar do `{{user.name}}`
+que chegava vazio, e liga a Halo antes de mandar. Não foi aplicado: depende do time.
+
+### Halo ativa desde a entrada
+`HTC | Ativar Halo` (`85ad46cd-…`) liga o bot e marca AI Activation = On. Testado:
+com o bot ligado por ele, o agente ficou 3 minutos sem falar nada e respondeu em
+~15 s quando entrou uma mensagem de WhatsApp — sem depender do gatilho
+`customer_reply`, que não dispara para mensagem injetada pela API.
+`tools/htc_ativar_halo.py --listar/--inscrever` liga a Halo em lote para quem entrou
+nos estágios de entrada e nunca respondeu.
+
+### Prompt e John
+O GHL não salva prompt de agente acima de 2.000 palavras; o da Halo tinha 2.463. O
+texto novo está em `tools/halo_prompt/` (1.878 palavras) e o antigo em
+`tools/halo_prompt/anterior-2026-09-28.txt`. `tools/htc_halo_john.py` aplica o prompt,
+aponta as transferências para o John e deixa o calendário da Halo só com ele.
+`tools/htc_notificacoes_john.py` tira João Alves e os dois Gabriel dos avisos de lead e
+de membro.
+
+A Halo não tem ação de agendamento: o prompt mandava agendar, mas nenhuma call foi
+marcada no calendário dela em 60 dias. Criar pela API exige, além de `calendarId`,
+`transferBot`, `rescheduleEnabled` e `cancelEnabled` em `details`.
