@@ -92,10 +92,11 @@ neste repositório; os scripts citados estão em `tools/`.
   - Pedro, no GHL: logo da WN na Review Survey, no Client Review Form e no Discount
     Form.
   - Em aberto: rascunhos 0.2 e 0.3 ainda avisam "All users".
-- [ ] **WN /auditar-site (28/09): VERMELHO, 43 falhas.** Pedro roda os 5 prompts de
-      `entregas/WN-Painting-auditoria-fix-2026-09-28.md` (Sprints 3, 2, 4, 5, 6), um
-      por vez; o Claude reaudita até VERDE. CEP confirmado: 19154 (Prompt 1 corrige no site;
-      Business Address no GHL já corrigido).
+- [ ] **WN /auditar-site:** SEO VERDE em 28/09 (0 falhas, 5 alertas: páginas
+      utilitárias sem pré-render e soft 404). Falta: Pedro rodar
+      `entregas/WN-Painting-PROMPT-corrigir-imagens.md` (hero, interior com URL
+      quebrada, exterior, flooring e deck trocados) e fazer os testes manuais (form
+      real, celular, PageSpeed, Search Console).
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
       logotipo; quadrada, 720×720 px).
 - [ ] **Best Painting:** pedir ao Marcelo os vídeos originais. Os do Drive vieram
