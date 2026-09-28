@@ -398,3 +398,15 @@ de membro.
 A Halo não tem ação de agendamento: o prompt mandava agendar, mas nenhuma call foi
 marcada no calendário dela em 60 dias. Criar pela API exige, além de `calendarId`,
 `transferBot`, `rescheduleEnabled` e `cancelEnabled` em `details`.
+
+### PUT de workflow zera as configurações que não vão no corpo
+`PUT /workflow/{loc}/{id}` sem `stopOnResponse`, `allowMultiple`, `window`,
+`allowMultipleOpportunity`, `removeContactFromLastStep`, `autoMarkAsRead` e `timezone`
+volta esses campos para o padrão (parar ao responder desligado, sem janela de envio,
+contato entra uma vez só). Mande sempre os sete, copiados do workflow atual. O
+histórico (`GET /workflow/{loc}/{id}/history`) guarda esses campos por versão, então
+dá para ver o que cada save mudou.
+
+Decisão de 28/09: a sequência do `1.2 Opt In (Wpp)` fica por SMS (STEVO) até os
+templates oficiais serem aprovados; aí só se trocam os nós. Só o que é da Halo vai
+para o John; os outros processos continuam com quem estava.

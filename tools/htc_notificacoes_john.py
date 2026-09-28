@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Tira João Alves e Gabriel dos avisos de lead e de membro da HTC: tudo vai para o John.
+"""Tira João Alves e Gabriel dos avisos da Halo: tudo que a Halo passa vai para o John.
 
-Só mexe nos workflows da operação de leads e membros da HTC, listados em ALVOS. Em
-cada aviso interno (SMS, e-mail ou notificação do app) e em cada divisão de
-atribuição, os ids do João e dos dois Gabriel saem e o John entra se ainda não
-estiver. Outros destinatários ficam como estão.
-
-Fora de propósito, e por isso fora da lista: contratação (Aplicação para Contratação,
-Reunião HTC Tech), consultoria/implementação, Auxílio Acidente, Empresa Solar e
-CrewSystems.
+Regra do time (28/09): só o que é da Halo muda. Os outros processos continuam com
+quem já estava, seja João ou Gabriel. Em cada aviso interno (SMS, e-mail ou
+notificação do app) dos workflows em ALVOS, os ids do João e dos dois Gabriel saem e
+o John entra se ainda não estiver. Outros destinatários ficam como estão.
 
 Uso: python tools/htc_notificacoes_john.py [--dry]
 """
@@ -21,17 +17,14 @@ LOC = os.environ["GHL_LOCATION_ID"]
 JOHN = "wmlzZtJRtlFzilmaSojj"
 SAEM = {"AoRfnKsAmrFW57EiadNQ": "João Alves", "wMgwPMadyjA8AK9yf6ud": "Gabriel HTCLUBE",
         "4zth6nbXm83uGB8McW2L": "Gabriel Oliveira"}
-# usuário apagado da conta: o GHL recusa salvar workflow que ainda aponta para ele
-INEXISTENTES = {"ocec1DGKusgkahOiPMN3"}
+INEXISTENTES = set()
+CONFIG = ["stopOnResponse", "allowMultiple", "window", "allowMultipleOpportunity",
+          "removeContactFromLastStep", "autoMarkAsRead", "timezone"]
 ALVOS = {
     "65b4805f-af61-4dd9-b0bc-2692cc7dd2e1": "HTC | Halo -> Transferencia Humana (John)",
     "01c3ea02-402c-4cee-b2cf-2e3e8e45363e": None,   # Reminders Agendamento IA Halo
     "3486c6fd-c86e-462c-8542-a628302c4ee8": "HTC | Chat do Site -> Notificar John",
     "af7ec407-ff3d-4005-aac6-17dc00f819a2": None,   # Halo -> Ticket Afiliado (enviado)
-    "983fd918": None,                                # NPS - HTC
-    "8cbcf34b": None,                                # HTC Onboarding PPL - Appointment Confirmation
-    "e1148c12-a71a-4665-80b7-278816220ed1": None,   # SaaS New Reward
-    "d428b6c8": None,                                # Assign Calling Leads
 }
 TEXTOS = [("Avisar Joao e Gabriel", "Avisar John"), ("Avisar Joao - chat do site", "Avisar John - chat do site"),
           ("HALO PASSOU UM LEAD PARA VOCES", "HALO PASSOU UM LEAD PARA VOCE")]
@@ -97,6 +90,8 @@ for prefixo, novo_nome in ALVOS.items():
         tr = tr if isinstance(tr, list) else []
         body = {"name": nome, "version": w["version"], "status": w.get("status", "published"),
                 "meta": w.get("meta") or {}, "workflowData": {"templates": steps}}
+        # o PUT zera as configurações que não vêm no corpo (parar ao responder, janela...)
+        body.update({k: w.get(k) for k in CONFIG})
         if tr:
             body.update({"triggersChanged": True, "oldTriggers": tr, "newTriggers": tr})
         r = requests.put(B + "/workflow/%s/%s" % (LOC, w["_id"]), headers=H, json=body, timeout=40)
