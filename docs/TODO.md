@@ -1,6 +1,6 @@
 # To-do — HTC e Crew Systems
 
-Atualizado em 29/09/2026. Cada item diz quem faz. "Claude" = sessão do Claude Code
+Atualizado em 28/09/2026. Cada item diz quem faz. "Claude" = sessão do Claude Code
 neste repositório; os scripts citados estão em `tools/`.
 
 ## HTC — Halo e leads
@@ -74,27 +74,28 @@ neste repositório; os scripts citados estão em `tools/`.
     website `Tzk80MbBa69EntMsGrtq`
 - [ ] **Rafa (WN):** executar o passo a passo do GBP e subir as fotos, no site e no
       GMN (zip já entregue). Não renomear o perfil.
-- [ ] **WN — o que falta (revisado em 29/09):**
+- [ ] **WN — o que falta (revisado em 28/09, 19h):**
   - Pedro, AI Studio: Prompt 7 (`entregas/WN-Painting-PROMPT-7-imagens-cdn.md`, sem
-    anexo): logo, selo e fotos pelo CDN do GHL + contraste do azul no fundo escuro.
-    Meta: PageSpeed mobile ≥ 75 (hoje 62 na home, 68 em serviço; desktop 87).
-  - Pedro, GHL: pôr o logo da WN no topo (elemento de imagem) do Discount Form, da
-    Review Survey e do Website Form, e trocar a imagem da CrewSystems no Client Review
-    Form. Hoje: Discount e Survey sem logo visível; Client Review com a CrewSystems;
-    Website Form com logo "ezclick".
+    anexo). O site publicado ainda não tem o Prompt 7: logo (PNG de 355 KB) e selo
+    (PNG de 888 KB) originais, fotos sem o CDN do GHL. PageSpeed mobile: home 62 a 74,
+    serviço 77, desktop 95. Meta: home mobile ≥ 75. O prompt agora também troca o
+    texto do /get-your-discount ("inbox" → "we'll text you"), já que o form não pede
+    e-mail.
   - Pedro: Search Console + Bing (passo a passo em
     `entregas/WN-Painting-PROMPT-performance-e-search-console.md`). Não há meta de
     verificação do Google no site ainda.
-  - Pedro: testes manuais que faltam: celular (barra fixa), Discount Form e Review
-    Survey (1–3 e 4–5 estrelas). O form de orçamento já foi testado (Rafael, 28/09):
-    chega na WN com Service Needed e dispara a 0.0.
   - Pedro (opcional): perfil da empresa no GHL ainda com e-mail hotmail; o e-mail da
     empresa no onboarding é o gmail.
-  - Claude: rerodar `tools/lighthouse.sh` e `seo-audit.sh` depois do Prompt 7; quando
-    tudo fechar, marcar a tarefa Wnpainting no ClickUp e deixar a nota no contato do
-    Wesley na subconta da Crew (só no fim, a pedido do Pedro).
+  - Claude: depois do Prompt 7, rodar `tools/lighthouse.sh` de novo; com a home ≥ 75,
+    marcar o Sprint 6 no ClickUp. Com o Search Console feito, marcar o último item,
+    passar a tarefa para "complete" e deixar a nota no contato do Wesley na subconta
+    da Crew (a pedido do Pedro, só no fim).
   - Em aberto: rascunhos 0.2 e 0.3 da WN ainda avisam "All users".
-- [x] WN feito até 29/09: fotos reais no site inteiro (sem IA, WebP), mapeamento
+  - Feito em 28/09: `/auditar-site` VERDE (0 falhas, 5 alertas que não bloqueiam);
+    Discount Form e Review Survey revisados no celular (logo nos forms feito pelo
+    Pedro; 1–3 estrelas abre o feedback; 4–5 vai para o link de review do Google,
+    que responde); ClickUp [Wnpainting] com 10 de 12 itens marcados.
+- [x] WN feito até 28/09: fotos reais no site inteiro (sem IA, WebP), mapeamento
       corrigido; form de orçamento na conta da WN (locationId, tracking, Service
       Needed, Your Message) → /thank-you; /marketing-form, /about, /privacy-policy,
       /terms; SEO 0 falhas (HousePainter, noindex, sitemap 18 URLs, robots, llms.txt,
