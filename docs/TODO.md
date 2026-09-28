@@ -74,15 +74,34 @@ neste repositório; os scripts citados estão em `tools/`.
     website `Tzk80MbBa69EntMsGrtq`
 - [ ] **Rafa (WN):** executar o passo a passo do GBP e subir as fotos, no site e no
       GMN (zip já entregue). Não renomear o perfil.
-- [ ] **Pedro (WN site, AI Studio):** mandar os 2 prompts de
-      `entregas/WN-Painting-PROMPTS-AI-STUDIO.md`, cada um com as 8 imagens da sua
-      pasta (`entregas/WN-Painting-AI-Studio-imagens.zip`). Tira as 2 imagens de IA
+- [ ] **Pedro (WN site, AI Studio):** mandar os 4 prompts de
+      `entregas/WN-Painting-PROMPTS-AI-STUDIO.md`, cada um com as imagens da sua
+      pasta (até 5) (`entregas/WN-Painting-AI-Studio-imagens.zip`). Tira as 2 imagens de IA
       (hero e Bathroom Remodeling), corrige as fotos trocadas (Interior, Exterior e
       Flooring) e passa tudo para WebP (Sprint 6). Depois, o Claude confere no site ao
       vivo.
-- [ ] **Pedro:** instalar o app do Claude no GitHub na organização crew-systems
-      (https://claude.ai/connect-github), para o Claude acessar o `crew-hq` e rodar o
-      `/auditar-site` da tarefa de auditoria da WN. O ClickUp já está conectado.
+- [ ] **WN Build (conferido em 28/09), o que falta:**
+  - URGENTE: o formulário de orçamento do site manda o lead com `locationId` e
+    `trackingId` da **Best Painting** (site copiado do template). Trocar pelo
+    `locationId` da WN (`emq5z0PS5ddzVY2lGz74`) e pelo tracking ID da WN no AI
+    Studio. Hoje nenhum lead do site cai na WN. O form também não envia "service"
+    nem "details".
+  - A conta não tem número de telefone: sem número não sai SMS nem dá para fazer o
+    A2P.
+  - 0.0 dispara no "Website Form" do GHL, mas o site envia um evento externo
+    `estimate-request-form`. Trocar o gatilho para External Tracking Event.
+  - Custom values: Company Website Link termina com "/" (links saem com "//");
+    Company Email, Company Phone (Functional/Aesthetic) vazios. O e-mail está
+    diferente entre o perfil (hotmail) e o site/usuário (gmail); o CEP também (19154
+    no perfil, 19152 no site e no Business Address).
+  - Página /marketing-form não existe no site, e o Client Review Form redireciona
+    para ela.
+  - Logo da WN faltando: a pesquisa de review e o Client Review Form mostram o logo
+    da CrewSystems; o Discount Form e o Website Form estão sem logo.
+  - Avisos internos em "All users" em 0.0, 0.1, 1.0, Negative Feedback, Refer a
+    Friend (6), Review Request e Trigger Link Clicked. Trocar para o Wesley.
+- [ ] **Claude:** rodar o `/auditar-site wnpaintingremodeling.com` do crew-hq (acesso
+      liberado em 28/09) e gerar os prompts de correção dos sprints.
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
       logotipo; quadrada, 720×720 px).
 - [ ] **Best Painting:** pedir ao Marcelo os vídeos originais. Os do Drive vieram
