@@ -80,26 +80,19 @@ neste repositório; os scripts citados estão em `tools/`.
       (hero e Bathroom Remodeling), corrige as fotos trocadas (Interior, Exterior e
       Flooring) e passa tudo para WebP (Sprint 6). Depois, o Claude confere no site ao
       vivo.
-- [ ] **WN Build (conferido em 28/09), o que falta:**
-  - URGENTE: o formulário de orçamento do site manda o lead com `locationId` e
-    `trackingId` da **Best Painting** (site copiado do template). Trocar pelo
-    `locationId` da WN (`emq5z0PS5ddzVY2lGz74`) e pelo tracking ID da WN no AI
-    Studio. Hoje nenhum lead do site cai na WN. O form também não envia "service"
-    nem "details".
-  - A conta não tem número de telefone: sem número não sai SMS nem dá para fazer o
-    A2P.
-  - 0.0 dispara no "Website Form" do GHL, mas o site envia um evento externo
-    `estimate-request-form`. Trocar o gatilho para External Tracking Event.
-  - Custom values: Company Website Link termina com "/" (links saem com "//");
-    Company Email, Company Phone (Functional/Aesthetic) vazios. O e-mail está
-    diferente entre o perfil (hotmail) e o site/usuário (gmail); o CEP também (19154
-    no perfil, 19152 no site e no Business Address).
-  - Página /marketing-form não existe no site, e o Client Review Form redireciona
-    para ela.
-  - Logo da WN faltando: a pesquisa de review e o Client Review Form mostram o logo
-    da CrewSystems; o Discount Form e o Website Form estão sem logo.
-  - Avisos internos em "All users" em 0.0, 0.1, 1.0, Negative Feedback, Refer a
-    Friend (6), Review Request e Trigger Link Clicked. Trocar para o Wesley.
+- [ ] **WN Build (conferido e corrigido em 28/09):**
+  - Feito pelo Claude (`tools/crew_wn_build_fix.py`): Company Website Link sem "/",
+    Company Email (wesleynevespainting@gmail.com, "Email da Empresa" do onboarding),
+    Company Phone, gatilho da 0.0 para o form do site (`estimate-request-form`),
+    avisos "All users" → Wesley em 7 workflows publicados, campo "Service Needed"
+    criado (`Wj8uisiBI9U1dxqAN84s`). A2P já aprovado (confirmado pelo Pedro).
+  - Pedro, no AI Studio: Prompt A (form → locationId/tracking da WN + serviço e
+    mensagem) e Prompt B (/marketing-form), em
+    `entregas/WN-Painting-PROMPTS-AI-STUDIO-form-e-marketing.md`.
+  - Pedro, no GHL: logo da WN na Review Survey, no Client Review Form e no Discount
+    Form.
+  - Em aberto: CEP (19152 no onboarding, 19154 no perfil do GHL); rascunhos 0.2 e 0.3
+    ainda avisam "All users".
 - [ ] **Claude:** rodar o `/auditar-site wnpaintingremodeling.com` do crew-hq (acesso
       liberado em 28/09) e gerar os prompts de correção dos sprints.
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
