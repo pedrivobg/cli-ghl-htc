@@ -74,13 +74,15 @@ neste repositório; os scripts citados estão em `tools/`.
     website `Tzk80MbBa69EntMsGrtq`
 - [ ] **Rafa (WN):** executar o passo a passo do GBP e subir as fotos, no site e no
       GMN (zip já entregue). Não renomear o perfil.
-- [ ] **Rafa (WN site):** trocar as 10 imagens de IA pelas fotos reais de
-      `entregas/WN-Painting-site-fotos-por-espaco.zip`. O LEIA-ME do zip diz onde cada
-      uma entra (objeto `te` e JSON-LD). Prioridade: a imagem do schema, que hoje é um
-      cartão falso "TRESTE" com telefone inventado.
-- [ ] **Pedro:** dar acesso ao Claude às tarefas do ClickUp da WN (86akq1h13 e o
-      build 86akq95w7) e ao repositório `crew-systems/crew-hq`, que tem o padrão de
-      auditoria. Hoje nenhum dos dois está acessível nesta sessão.
+- [ ] **Pedro (WN site, AI Studio):** mandar os 2 prompts de
+      `entregas/WN-Painting-PROMPTS-AI-STUDIO.md`, cada um com as 8 imagens da sua
+      pasta (`entregas/WN-Painting-AI-Studio-imagens.zip`). Tira as 2 imagens de IA
+      (hero e Bathroom Remodeling), corrige as fotos trocadas (Interior, Exterior e
+      Flooring) e passa tudo para WebP (Sprint 6). Depois, o Claude confere no site ao
+      vivo.
+- [ ] **Pedro:** instalar o app do Claude no GitHub na organização crew-systems
+      (https://claude.ai/connect-github), para o Claude acessar o `crew-hq` e rodar o
+      `/auditar-site` da tarefa de auditoria da WN. O ClickUp já está conectado.
 - [ ] **Best Painting:** trocar a logo do GBP (Pesquisa ou Maps → Fotos → Alterar
       logotipo; quadrada, 720×720 px).
 - [ ] **Best Painting:** pedir ao Marcelo os vídeos originais. Os do Drive vieram
