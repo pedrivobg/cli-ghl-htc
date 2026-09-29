@@ -76,7 +76,7 @@ neste repositório; os scripts citados estão em `tools/`.
       GMN (zip já entregue). Não renomear o perfil.
 - [ ] **WN — o que falta (revisado em 28/09, 20h):**
   - Pedro: Search Console + Bing (passo a passo em
-    `entregas/WN-Painting-PROMPT-performance-e-search-console.md`). É o único item
+    `docs/wn-painting/WN-Painting-PROMPT-performance-e-search-console.md`). É o único item
     aberto no ClickUp. Enviar o sitemap pela API é possível, mas exige o login OAuth
     do dono da propriedade no Google; sem isso, o jeito é manual. O robots.txt já
     aponta o sitemap, então o Google o encontra mesmo antes do envio.
